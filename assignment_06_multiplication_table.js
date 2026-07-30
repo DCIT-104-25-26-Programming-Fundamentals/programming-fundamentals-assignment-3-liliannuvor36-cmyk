@@ -60,3 +60,60 @@
 // =============================================================================
 
 
+// =============================================================================
+// PROGRAMMING FUNDAMENTALS — Assignment 6
+// =============================================================================
+//
+// TASK: Multiplication Table Generator
+// =============================================================================
+
+const readlineSync = require('readline-sync');
+
+// -----------------------------------------------------------------------------
+// Part A — Single Table
+// -----------------------------------------------------------------------------
+
+function printTable(num) {
+    console.log(`Multiplication Table for ${num}:`);
+    for (let i = 1; i <= 12; i++) {
+        console.log(`${num} x ${i} = ${num * i}`);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Part B — Bonus: Tables from 1 to N
+// -----------------------------------------------------------------------------
+
+function printAllTables(n) {
+    for (let num = 1; num <= n; num++) {
+        printTable(num);
+        if (num !== n) {
+            console.log("---------------------------");
+        }
+    }
+}
+
+function main() {
+    console.log("1. Single Table");
+    console.log("2. Tables from 1 to N");
+    const choice = readlineSync.questionInt("Enter choice (1-2): ");
+
+    if (choice === 1) {
+        const num = readlineSync.questionInt("Enter a number: ");
+        printTable(num);
+
+    } else if (choice === 2) {
+        const n = readlineSync.questionInt("Enter N: ");
+
+        if (n <= 0) {
+            console.log("Error: N must be a positive integer.");
+        } else {
+            printAllTables(n);
+        }
+
+    } else {
+        console.log("Error: Invalid choice.");
+    }
+}
+
+main();

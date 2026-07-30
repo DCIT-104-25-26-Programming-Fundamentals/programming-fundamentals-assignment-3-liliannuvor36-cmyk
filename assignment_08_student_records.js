@@ -85,3 +85,129 @@
 // =============================================================================
 
 
+// =============================================================================
+// PROGRAMMING FUNDAMENTALS — Assignment 8
+// =============================================================================
+//
+// TASK: Student Record Management System
+// =============================================================================
+
+const readlineSync = require('readline-sync');
+
+// -----------------------------------------------------------------------------
+// Helper — Calculate average score for a single student
+// -----------------------------------------------------------------------------
+
+function calculateAverage(student) {
+    if (student.scores.length === 0) {
+        return 0;
+    }
+
+    let sum = 0;
+    for (let i = 0; i < student.scores.length; i++) {
+        sum += student.scores[i];
+    }
+    return sum / student.scores.length;
+}
+
+// -----------------------------------------------------------------------------
+// Feature 1 — Add a Student
+// -----------------------------------------------------------------------------
+
+function addStudent(students) {
+    const name = readlineSync.question("Student name: ");
+    const id = readlineSync.questionInt("Student ID: ");
+    const numScores = readlineSync.questionInt("How many scores? ");
+
+    if (numScores <= 0) {
+        console.log("Error: Number of scores must be positive. Student not added.");
+        return;
+    }
+
+    const scores = [];
+    for (let i = 0; i < numScores; i++) {
+        const score = readlineSync.questionFloat(`Enter score ${i + 1}: `);
+        scores.push(score);
+    }
+
+    students.push({ name, id, scores });
+    console.log(`Student "${name}" added successfully.`);
+}
+
+// -----------------------------------------------------------------------------
+// Feature 2 — Display All Students
+// -----------------------------------------------------------------------------
+
+function displayAllStudents(students) {
+    if (students.length === 0) {
+        console.log("No students have been added yet.");
+        return;
+    }
+
+    for (const student of students) {
+        console.log();
+        console.log(`Name:    ${student.name}`);
+        console.log(`ID:      ${student.id}`);
+        console.log(`Scores:  ${student.scores.join(', ')}`);
+        console.log(`Average: ${calculateAverage(student).toFixed(2)}`);
+    }
+}
+
+// -----------------------------------------------------------------------------
+// Feature 3 — Calculate Average Score for a Specific Student
+// -----------------------------------------------------------------------------
+
+function findStudentAverage(students) {
+    const id = readlineSync.questionInt("Enter student ID: ");
+
+    for (const student of students) {
+        if (student.id === id) {
+            console.log(`${student.name}'s average score: ${calculateAverage(student).toFixed(2)}`);
+            return;
+        }
+    }
+
+    console.log(`Error: No student found with ID ${id}.`);
+}
+
+// -----------------------------------------------------------------------------
+// Main program: menu loop
+// -----------------------------------------------------------------------------
+
+function main() {
+    let students = [];
+    let running = true;
+
+    while (running) {
+        console.log();
+        console.log("================================");
+        console.log("   STUDENT RECORD SYSTEM MENU");
+        console.log("================================");
+        console.log("1. Add student");
+        console.log("2. Display all students");
+        console.log("3. Calculate average score");
+        console.log("4. Quit");
+        const choice = readlineSync.questionInt("Enter your choice (1-4): ");
+
+        switch (choice) {
+            case 1:
+                addStudent(students);
+                break;
+            case 2:
+                displayAllStudents(students);
+                break;
+            case 3:
+                findStudentAverage(students);
+                break;
+            case 4:
+                console.log("Goodbye!");
+                running = false;
+                break;
+            default:
+                console.log("Error: Invalid choice. Please enter 1-4.");
+                break;
+        }
+    }
+}
+
+main();

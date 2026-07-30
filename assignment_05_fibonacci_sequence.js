@@ -55,3 +55,72 @@
 // =============================================================================
 
 
+// =============================================================================
+// PROGRAMMING FUNDAMENTALS — Assignment 5
+// =============================================================================
+//
+// TASK: Fibonacci Sequence Generator
+// =============================================================================
+
+const readlineSync = require('readline-sync');
+
+// -----------------------------------------------------------------------------
+// Part A — Print the first N terms
+// -----------------------------------------------------------------------------
+
+function printFibonacci(n) {
+    let a = 0, b = 1;
+    const terms = [];
+
+    for (let i = 0; i < n; i++) {
+        terms.push(a);
+        const next = a + b;
+        a = b;
+        b = next;
+    }
+
+    console.log(`Fibonacci sequence: ${terms.join(' ')}`);
+}
+
+// -----------------------------------------------------------------------------
+// Part B — Check if a number belongs to the sequence
+// -----------------------------------------------------------------------------
+
+function isFibonacci(num) {
+    if (num < 0) {
+        return false;
+    }
+
+    let a = 0, b = 1;
+
+    // Generate terms until we reach or pass num
+    while (a < num) {
+        const next = a + b;
+        a = b;
+        b = next;
+    }
+
+    return a === num;
+}
+
+function main() {
+    const n = readlineSync.questionInt("How many terms? ");
+
+    if (n <= 0) {
+        console.log("Error: Number of terms must be a positive integer.");
+    } else {
+        printFibonacci(n);
+    }
+
+    console.log();
+
+    const num = readlineSync.questionInt("Enter a number to check: ");
+
+    if (isFibonacci(num)) {
+        console.log(`${num} is a Fibonacci number.`);
+    } else {
+        console.log(`${num} is NOT a Fibonacci number.`);
+    }
+}
+
+main();

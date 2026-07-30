@@ -75,3 +75,131 @@
 // =============================================================================
 
 
+// Import the readline-sync module for handling console inputs
+const readline = require('readline-sync');
+
+// =============================================================================
+// HELPER FUNCTIONS FOR ARITHMETIC OPERATIONS
+// =============================================================================
+
+function add(a, b) {
+  return a + b;
+}
+
+function subtract(a, b) {
+  return a - b;
+}
+
+function multiply(a, b) {
+  return a * b;
+}
+
+function divide(a, b) {
+  if (b === 0) {
+    return "Error: Cannot divide by zero.";
+  }
+  return a / b;
+}
+
+function modulus(a, b) {
+  if (b === 0) {
+    return "Error: Cannot perform modulus by zero.";
+  }
+  return a % b;
+}
+
+function exponentiate(a, b) {
+  return a ** b;
+}
+
+// Helper to ask the user for a valid numerical input
+function getNumberInput(promptText) {
+  while (true) {
+    const input = readline.question(promptText);
+    const num = parseFloat(input);
+
+    if (!isNaN(num)) {
+      return num;
+    }
+    console.log("Invalid input! Please enter a valid number.");
+  }
+}
+
+// =============================================================================
+// MAIN PROGRAM LOOP
+// =============================================================================
+
+function startCalculator() {
+  let running = true;
+
+  while (running) {
+    console.log("\n============================");
+    console.log("     SIMPLE CALCULATOR     ");
+    console.log("============================");
+    console.log("1. Addition");
+    console.log("2. Subtraction");
+    console.log("3. Multiplication");
+    console.log("4. Division");
+    console.log("5. Modulus");
+    console.log("6. Exponentiation");
+    console.log("7. Quit");
+
+    const choice = readline.question("Select an operation (1-7): ").trim();
+
+    if (choice === '7') {
+      console.log("Goodbye!");
+      running = false;
+      break;
+    }
+
+    // Check for invalid menu selection before prompting for numbers
+    if (!['1', '2', '3', '4', '5', '6'].includes(choice)) {
+      console.log("Invalid choice! Please enter a number between 1 and 7.");
+      continue;
+    }
+
+    // Prompt for the two numbers
+    const num1 = getNumberInput("Enter first number : ");
+    const num2 = getNumberInput("Enter second number: ");
+
+    let result;
+    let symbol;
+
+    switch (choice) {
+      case '1':
+        result = add(num1, num2);
+        symbol = '+';
+        break;
+      case '2':
+        result = subtract(num1, num2);
+        symbol = '-';
+        break;
+      case '3':
+        result = multiply(num1, num2);
+        symbol = '*';
+        break;
+      case '4':
+        result = divide(num1, num2);
+        symbol = '/';
+        break;
+      case '5':
+        result = modulus(num1, num2);
+        symbol = '%';
+        break;
+      case '6':
+        result = exponentiate(num1, num2);
+        symbol = '**';
+        break;
+    }
+
+    // Format output depending on whether the result returned an error string or a number
+    if (typeof result === 'string') {
+      console.log(result);
+    } else {
+      console.log(`Result: ${num1} ${symbol} ${num2} = ${result.toFixed(2)}`);
+    }
+  }
+}
+
+// Start the application
+startCalculator();
